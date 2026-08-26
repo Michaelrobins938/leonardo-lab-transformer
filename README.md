@@ -6,6 +6,9 @@
 [![Tests](https://img.shields.io/badge/tests-17%20passing-brightgreen.svg)](tests/test_engine.py)
 [![DOI](https://img.shields.io/badge/DOI-pending-lightgrey.svg)](CITATION.cff)
 
+![Leonardo Lab — Constrained Evolutionary Search Architecture](assets/hero-architecture.jpeg)
+<p align="center"><em>The complete system in one view: notebooks → formal ruleset extraction → initial genome → the immutable 11-phase GASO state machine → persistent evolution archive → evolved designs, closing the cumulative-adaptation loop.</em></p>
+
 > **A computational organism built from Leonardo da Vinci's scientific method:**
 > a resource-constrained evolutionary search engine whose initial genome is a
 > formal ruleset extracted from the notebooks (Richter ed., 1888), whose engine
