@@ -1,0 +1,254 @@
+# .leonardo-lab/evolution_archive.yaml
+# Leonardo Lab — Evolution Archive
+# System: Decoder-Only Transformer
+# Written: Generation 1
+
+evolution_archive:
+
+  system_identity:
+    name: "Decoder-Only Transformer (Configuration B)"
+    domain: "Neural sequence modeling / language generation"
+    lineage:
+      - "Vaswani et al. 2017 — Attention Is All You Need (baseline paper)"
+      - "formal-elements.md extraction (Cangjie-Deconstructor pipeline)"
+      - "generative_design_analysis.md (Generative System Design Method)"
+      - "V05b (encoder removal) + V04 (relative position) — Configuration B"
+      - "THIS FILE: Generation 1 Leonardo Lab evolutionary run"
+
+  generation:
+    number: 1
+    timestamp: "2026-08-03T08:10:00-05:00"
+    search_budget_consumed:
+      mutations: 5.0
+      simulations: 2.5
+      total: 7.5
+      remaining: 7.5
+    iterations_remaining: 9
+
+  baseline_history:
+    - generation: 0
+      label: "Configuration B (pre-evolution baseline)"
+      configuration:
+        architecture: decoder_only
+        position_encoding: alibi_linear
+        normalization: post_norm
+        head_count: 16
+        kv_heads: 16  # multi_head
+        layer_count: 12
+        d_model: 512
+        d_ff: 2048
+        ffn_ratio: 4
+        dropout: 0.1
+        weight_tying: tied
+        softcap: none
+        window_structure: all_global
+      fitness_score: 1.000  # normalized baseline
+      selected_variant: "N/A — initial configuration"
+
+    - generation: 1
+      label: "GQA Winner — Grouped Query Attention g=4"
+      configuration:
+        architecture: decoder_only
+        position_encoding: alibi_linear
+        normalization: post_norm
+        head_count: 16
+        kv_heads: 4   # grouped_query g=4 — CHANGED
+        layer_count: 12
+        d_model: 512
+        d_ff: 2048
+        ffn_ratio: 4
+        dropout: 0.1
+        weight_tying: tied
+        softcap: none
+        window_structure: all_global
+      fitness_score: 1.207
+      selected_variant: "Variant_E"
+      delta_from_previous: "kv_cache_sharing: multi_head → grouped_query (g=4)"
+
+  queued_for_composition:
+    # These passed invariant filter and will be composed into Generation 2 baseline
+    - variant: Variant_A
+      change: "normalization_position: post_norm → pre_norm"
+      individual_fitness: 1.117
+      composition_risk: low
+    - variant: Variant_B
+      change: "position_encoding_type: alibi_linear → rope_rotary"
+      individual_fitness: 1.113
+      composition_risk: low
+    - variant: Variant_C
+      change: "attention_logit_softcap: infinity → 50.0"
+      individual_fitness: 1.090
+      composition_risk: none
+
+  successful_mutations:
+    - generation: 1
+      mutation_operator: M04  # Disequilibrium
+      variable: kv_cache_sharing
+      changed_from: multi_head
+      changed_to: grouped_query_g4
+      effect_delta_fitness: +0.207
+      leverage_ratio: 0.828
+      environments_tested: [baseline, stressed_n8192, perturbed_high_throughput]
+      key_insight: >
+        KV cache bottleneck is an inference-only phenomenon invisible to
+        training-time metrics. Mutations targeting inference efficiency
+        can have high fitness gain without any training quality loss.
+
+    - generation: 1
+      mutation_operator: M01  # Quantization
+      variable: normalization_position
+      changed_from: post_norm
+      changed_to: pre_norm
+      effect_delta_fitness: +0.117
+      leverage_ratio: 0.117
+      environments_tested: [baseline, stressed_n4096, perturbed_fine_tuning]
+      key_insight: >
+        Structural reorders that affect ALL layers simultaneously have
+        leverage proportional to depth N, not proportional to the size
+        of the individual change.
+
+    - generation: 1
+      mutation_operator: M05  # Dual-Coordinate
+      variable: position_encoding_type
+      changed_from: alibi_linear
+      changed_to: rope_rotary
+      effect_delta_fitness: +0.113
+      leverage_ratio: 0.113
+      environments_tested: [baseline, stressed_n8192, perturbed_structured_data]
+      key_insight: >
+        Encoding position multiplicatively (via rotation in Q/K space) rather
+        than additively (logit bias) preserves relative position under
+        the inner product regardless of absolute position magnitude.
+        Free insurance policy: zero extra parameters, zero baseline cost.
+
+    - generation: 1
+      mutation_operator: M03  # Convergence
+      variable: attention_logit_softcap
+      changed_from: none
+      changed_to: 50.0
+      effect_delta_fitness: +0.090
+      leverage_ratio: 0.900  # highest ratio, concentrated in stressed environment
+      environments_tested: [baseline, stressed_n4096, perturbed_repetitive_text]
+      key_insight: >
+        Highest leverage RATIO but lowest absolute gain because it only
+        activates at the failure boundary (large sequence / large logits).
+        Targeted interventions at specific failure modes have the highest
+        leverage ratio but narrowest activation range.
+
+  failed_mutations:
+    - generation: 1
+      variable: attention_window_structure  # via domain transfer
+      mutation_operator: M02
+      failure_reason: >
+        Causal decoder's temporal ordering constraint (s03/i03) transferred
+        to protein sequence domain where thermodynamic validity, not
+        temporal causality, governs valid states. The structural homomorphism
+        fails because constraint domains are incompatible.
+      violated_invariant: "i02 (Role Preservation) — causal mask role invalid in target domain"
+      negative_constraint_learned: >
+        Causal temporal ordering is DOMAIN-SPECIFIC, not a universal primitive.
+        Transfer validity requires checking whether the constraint's governing
+        principle (temporal causality vs. thermodynamic energy) is preserved.
+
+    - generation: 1
+      variable: normalization_position  # attempted: no_normalization
+      mutation_operator: M01
+      failure_reason: >
+        Removing LayerNorm entirely causes unbounded activation growth.
+        Pre-LN is safe; no-LN is unstable at depth.
+      violated_invariant: "training_stability (derived from i04 + m02)"
+      negative_constraint_learned: >
+        LayerNorm is a load-bearing component, not an optional regularizer.
+        Its absence is not a valid point in the parameter space at depth N>6.
+
+    - generation: 1
+      variable: head_count  # attempted: h=128
+      mutation_operator: M01
+      failure_reason: >
+        d_k = d_model/h = 512/128 = 4 dimensions per head. Inner-product
+        similarity in 4D is degenerate (insufficient directions for distinct
+        relational patterns). Heads fail to specialize.
+      violated_invariant: "practical_lower_bound: d_k >= 16"
+      negative_constraint_learned: >
+        i02 (cost conservation) holds mathematically at any h, but there
+        exists a practical lower bound on d_k (empirically ~16) below which
+        per-head attention degenerates. Cost conservation is a necessary
+        but not sufficient condition for head count validity.
+
+  learned_constraints:
+    - rule: >
+        Causal temporal ordering (i03/s03) is DOMAIN-SPECIFIC. It does not
+        transfer to domains where state validity is governed by non-temporal
+        constraints (thermodynamic, graph-structural, etc.).
+    - rule: >
+        LayerNorm is a load-bearing component at depth N > 6. Its complete
+        removal is not a valid parameter space point. The valid range for
+        normalization_position is {pre_norm, post_norm, sandwich_norm},
+        not {pre_norm, post_norm, no_norm}.
+    - rule: >
+        d_k = d_model / h must satisfy d_k >= 16. This creates an upper
+        bound on h: h_max = d_model / 16. For d_model=512, h_max = 32.
+    - rule: >
+        Variables that affect inference-only structures (KV cache) can have
+        high fitness impact invisible to training-time metrics. Fitness
+        function must include inference efficiency to capture these.
+    - rule: >
+        Mutations targeting structural reorders (normalization position)
+        have leverage proportional to N (depth), not proportional to their
+        local complexity. Depth multiplies structural leverage.
+
+  parameter_sensitivity:
+    high_leverage:
+      - variable: kv_cache_sharing
+        leverage_ratio: 0.828
+        activation: "inference environment; grows with sequence length"
+      - variable: normalization_position
+        leverage_ratio: 0.117
+        activation: "universal; scales with N"
+      - variable: position_encoding_type
+        leverage_ratio: 0.113
+        activation: "stressed environment (long sequences); zero cost at baseline"
+      - variable: attention_logit_softcap
+        leverage_ratio: 0.900  # ratio; absolute effect is medium
+        activation: "failure boundary only; invisible at normal lengths"
+    low_leverage:
+      - variable: dropout_rate
+        leverage_ratio: 0.050
+        reason: "implicit data regularization dominates at scale"
+      - variable: weight_tying
+        leverage_ratio: 0.010
+        reason: "embedding and projection roles already well-separated by architecture"
+
+  current_genome:
+    GASO:
+      generator: >
+        Causal decoder-only stack. N=12 layers. Each layer:
+        (masked GQA h=16/g=4 + residual + post-LN + FFN-4× + residual + post-LN).
+        Position: ALiBi relative bias. Vocabulary: tied embedding matrix.
+        Optimizer: Adam warmup-decay (i05 scale-coupled).
+        Dropout: 0.1.
+      action: >
+        RECOMMENDED NEXT ITERATION:
+        Compose Variant_A + Variant_B + Variant_C into new baseline,
+        then mutate: (1) ffn_expansion_ratio, (2) attention_window_structure,
+        (3) layer_count, (4) head_count within d_k >= 16 constraint.
+      state: >
+        decoder_only | GQA g=4 | ALiBi | post_norm | N=12 | d=512 |
+        d_ff=2048 | h=16 | dropout=0.1 | tied | no_softcap | all_global
+        fitness=1.207
+      observer: >
+        Primary: BPC on held-out corpus.
+        Secondary: KV cache memory at n=4096, length generalization BPC,
+        training gradient norm variance per layer.
+      feedback: >
+        Failed mutation constraints → update learned_constraints.
+        Leverage ratios → reprioritize Phase 4 variable selection.
+        Budget remaining (7.5/15.0) → 5 more variants available in Generation 2.
+
+  search_budget_remaining:
+    generations_used: 1
+    max_iterations: 10
+    iterations_remaining: 9
+    budget_per_iteration: 15.0
+    budget_used_this_generation: 7.5
+    budget_accumulated_remaining: 7.5  # can roll over if needed

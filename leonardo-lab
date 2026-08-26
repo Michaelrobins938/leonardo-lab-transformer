@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""
+Leonardo Lab — Constrained Evolutionary Search Engine
+CLI Entry Point
+
+Usage:
+    ./leonardo-lab "optimize a waterwheel"
+    ./leonardo-lab "Cybernetic Reasoning Engine" ./evolution_archive.yaml
+
+This script operationalizes the extracted structural mechanics of Leonardo's
+notebooks as a domain-agnostic evolutionary kernel satisfying the three
+necessary conditions for a computational organism: heredity (archive persistence),
+variation (budgeted mutations), and selection (invariant filtering + fitness evaluation).
+"""
+
+import sys
+import os
+from pathlib import Path
+
+# Add the package to path
+sys.path.insert(0, str(Path(__file__).parent))
+
+from leonardo_lab.engine import GASOStateMachine
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: ./leonardo-lab '<target system>' [path/to/existing/archive.yaml]")
+        print("Example: ./leonardo-lab 'Cybernetic Reasoning Engine'")
+        print("Example: ./leonardo-lab 'Decoder-only transformer' ./.leonardo-lab/evolution_archive.yaml")
+        sys.exit(1)
+
+    target_system = sys.argv[1]
+    archive_path = sys.argv[2] if len(sys.argv) > 2 else "./.leonardo-lab/evolution_archive.yaml"
+
+    # Ensure archive directory exists
+    archive_dir = os.path.dirname(archive_path)
+    if archive_dir and not os.path.exists(archive_dir):
+        os.makedirs(archive_dir, exist_ok=True)
+
+    # Initialize and run the GASO state machine
+    engine = GASOStateMachine(target_system, archive_path)
+    execution_report = engine.run()
+
+    # Print the execution report to stdout
+    print(execution_report)
+
+if __name__ == "__main__":
+    main()

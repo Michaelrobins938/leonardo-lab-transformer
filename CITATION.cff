@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: >-
+  If you use Leonardo Lab in your research, please cite it using
+  this metadata.
+title: >-
+  Leonardo Lab: A Constrained Evolutionary Search Architecture
+  Operationalizing Structural Mechanics from Leonardo da Vinci's Notebooks
+type: software
+authors:
+  - name: Leonardo Lab Contributors
+version: 1.0.0
+date-released: "2026-08-25"
+license: MIT
+repository-code: >-
+  https://github.com/YOUR_ORG/leonardo-lab-transformer
+keywords:
+  - evolutionary computation
+  - constrained optimization
+  - cybernetics
+  - systems architecture
+  - history of science
+  - structural mechanics
+  - GASO state machine
+abstract: >-
+  Leonardo Lab is a high-fidelity, resource-constrained evolutionary
+  search engine that operationalizes structural mechanics extracted
+  from Leonardo da Vinci's scientific notebooks (Richter ed., 1888)
+  as a domain-agnostic evolutionary kernel. The system integrates a
+  formal ruleset genome, an 11-phase GASO state machine pipeline, and
+  a persistent evolution archive enabling cumulative adaptation across
+  execution sessions. Validation includes optimization of Wiener's
+  cybernetic alpha-rhythm model and decoder-only transformer
+  configurations.

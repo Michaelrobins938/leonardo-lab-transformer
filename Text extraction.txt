@@ -1,0 +1,777 @@
+book: "The Notebooks of Leonardo da Vinci" (Richter ed., 1888, Project Gutenberg #5000)
+extractor: Generative Architecture Extractor (A4 target)
+source_files: Complete/Vol1/Vol2 Project Gutenberg texts; Codex Atlanticus plates (images only, no extractable text in OCR scan — mechanical drawings used as corroborating, not primary, evidence) n_elements: 23
+--------------------------------------------------------------------------------
+Systems
+- id: s01
+  element_type: system
+  title: Convergent Projection System (Pyramid of Sight)
+  source_chapter: "Linear Perspective / Elements of Perspective (Vol. I, §§42-57)"
+  evidence_type: explicit
+  source_quote: |
+    "All objects transmit their image to the eye in pyramids, and the
+    nearer to the eye these pyramids are intersected the smaller will
+    the image appear."
+  extracted_structure: |
+    A field of point-sources each emits a radiating cone of information
+    toward a single receiving point. Every cone is defined by a base
+    (the object) and an apex (the eye). Intersecting any cone with a
+    plane at variable distance from the apex yields a projected state
+    whose magnitude is a monotonic function of that plane's distance
+    from the apex.
+  summary: |
+    An information-convergence system: many-to-one radiating channels
+    from a field of sources to a single observation point, with
+    magnitude of the received signal set by intersection distance.
+  formal_family: candidate — projective geometry / central projection
+  relationship_type: structural_isomorphism
+  confidence: high
+  invariant: |
+    The ratio of projected size to true size equals the ratio of
+    intersection-distance to source-distance, for any intersecting plane.
+  cross_domain_occurrences: [optics, acoustics (explicit, §102), camera obscura]
+  compression_lineage: |
+    Surface: the eye sees a pyramid of light rays.
+    → Compressed: a convergent channel maps many source states onto one apex.
+    → Core: many-to-one directed convergence with distance-scaled attenuation.
+  tags: [system, projection, convergence]
+  formal_type: Morphism
+  formal_constraints:
+    - composition: "intersection(plane_d1) ∘ intersection(plane_d2) preserves ordering by d"
+    - invariant: "size(d) / size(source) = d / d_source"
+  depends_on: ["o02_necessity", "m03_convergence_point"]
+  generates: ["i01_proportional_invariance"]
+  requires_invariant: ["i01_proportional_invariance"]
+  relationship:
+    type: generates
+    strength: 2
+    proof_status: derived
+    verification_required: true
+- id: s02
+  element_type: system
+  title: Branching Transport-Circulation Network
+  source_chapter: "Physical Geography / Beginning of the Treatise on Water (Vol. II, §929)"
+  evidence_type: explicit
+  source_quote: |
+    "As man has in him a pool of blood in which the lungs rise and fall
+    ... so the body of the earth has its ocean tide ... as in that pool
+    of blood veins have their origin, which ramify all over the human
+    body, so likewise the ocean sea fills the body of the earth with
+    infinite springs of water."
+  extracted_structure: |
+    A bounded system contains a central reservoir; from the reservoir a
+    branching, ramifying channel network distributes and returns a fluid
+    resource to peripheral regions; the reservoir itself undergoes
+    periodic expansion/contraction (a pump cycle).
+  summary: |
+    A closed-loop distribution architecture: reservoir → branching
+    delivery network → periphery → return, cycling under a periodic
+    driver.
+  formal_family: candidate — graph/network theory (rooted tree with cyclic flow)
+  relationship_type: structural_isomorphism
+  confidence: high
+  invariant: |
+    Topological role-correspondence: {reservoir, channel, periphery,
+    period} is preserved regardless of which scale (organism, planet)
+    instantiates it.
+  cross_domain_occurrences: [physiology (circulation, respiration), hydrology, geology]
+  compression_lineage: |
+    Surface: the earth is like a body ("world in miniature").
+    → Compressed: one branching-reservoir topology, two scales.
+    → Core: a rooted-tree flow network with a periodic central driver,
+      instantiated at nested scales with role-preserving substitution.
+  tags: [system, network, self-similarity, scale]
+  formal_type: Object
+  formal_constraints:
+    - composition: "channel_i ∘ channel_j valid iff channel_j is downstream of channel_i"
+    - coherence: "conservation of flow at each branch point"
+  depends_on: ["m02_scale_isomorphism"]
+  generates: ["i03_role_preservation"]
+  requires_invariant: ["i03_role_preservation"]
+  relationship:
+    type: isomorphic
+    strength: 2
+    proof_status: conjectured
+    verification_required: true
+- id: s03
+  element_type: system
+  title: Theory-Practice Control Loop
+  source_chapter: "Philosophical Maxims / Of Mechanics (Vol. II, §§1148-1161)"
+  evidence_type: explicit
+  source_quote: |
+    "Science is the captain, and practice the soldiers."
+  extracted_structure: |
+    A generator (mathematical law) constrains the space of permitted
+    actions (practice/experiment). Practice acts on a substrate and
+    produces an observable state. An observer (experience) inspects
+    that state and reports mismatch back to the generator, which is
+    revised or reaffirmed. Practice without a generator is unconstrained
+    and directionless; a generator without practice never touches state.
+  summary: |
+    A closed-loop control architecture in which a formal rule-space
+    governs action, and empirical observation of resulting state
+    feeds back to validate or correct the rule-space.
+  formal_family: candidate — control theory (generator/actuator/plant/sensor loop)
+  relationship_type: structural_isomorphism
+  confidence: high
+  invariant: |
+    No action is judged valid unless traceable to the rule-space; no
+    rule-space is retained if its predicted state repeatedly fails
+    against observation ("experience never errs; only your judgments err").
+  cross_domain_occurrences: [epistemology, engineering method, painting pedagogy, mechanics]
+  compression_lineage: |
+    Surface: "study science before practicing art."
+    → Compressed: theory constrains action; observation corrects theory.
+    → Core: a generator-action-state-observer loop with an explicit
+      failure-attribution rule (error belongs to the model, not the data).
+  tags: [system, feedback, epistemology, GASO]
+  formal_type: Functor
+  formal_constraints:
+    - composition: "observe ∘ act ∘ generate, iterated"
+    - unit: "id (a rule reaffirmed by matching observation)"
+  depends_on: ["o02_necessity"]
+  generates: ["a01_gaso_architecture"]
+  requires_invariant: ["i02_necessity_determinism"]
+  relationship:
+    type: generates
+    strength: 2
+    proof_status: derived
+    verification_required: true
+- id: s04
+  element_type: system
+  title: Disequilibrium-Driven Force Generator
+  source_chapter: "Physical Geography / Fundamental Laws of the Solar System (Vol. II, §859)"
+  evidence_type: explicit
+  source_quote: |
+    "Force arises from dearth or abundance; it is the child of physical
+    motion, and the grand-child of spiritual motion, and the mother and
+    origin of gravity."
+  extracted_structure: |
+    An asymmetric distribution of a quantity (dearth/abundance) between
+    two regions of a system induces a directed flow correcting that
+    asymmetry. The flow is itself treated as a state with generative
+    power: it produces a derived quantity (a "child") one level down
+    a causal chain, which in turn produces a further derived quantity.
+  summary: |
+    A cascading generator: imbalance produces flow; flow produces
+    force; force produces gravity — each output the generative
+    parent of the next, terminating in an observable derived power.
+  formal_family: candidate — dynamical systems (gradient-driven flux with derived-quantity cascade)
+  relationship_type: structural_isomorphism
+  confidence: medium
+  invariant: |
+    Causal order is preserved and non-reversible: no derived power
+    generates its own generator ("force ... is the mother ... of
+    gravity", never the reverse).
+  cross_domain_occurrences: [hydraulics ("water falls... earth absorbs... sun evaporates"), muscular physiology, planetary motion]
+  compression_lineage: |
+    Surface: force comes from need or plenty.
+    → Compressed: asymmetry generates directed corrective flux.
+    → Core: a strictly-ordered generative cascade seeded by state
+      asymmetry.
+  tags: [system, cascade, disequilibrium, causality]
+  formal_type: Morphism
+  formal_constraints:
+    - composition: "asymmetry -> flow -> force -> gravity (strict order, no cycle)"
+  depends_on: ["o01_four_powers"]
+  generates: ["m04_corrective_transition"]
+  requires_invariant: ["i02_necessity_determinism"]
+  relationship:
+    type: generates
+    strength: 2
+    proof_status: derived
+    verification_required: true
+- id: s05
+  element_type: system
+  title: Attenuating Radiation System (Light/Shadow Propagation)
+  source_chapter: "Six Books on Light and Shade (Vol. I, §§110-221)"
+  evidence_type: implicit
+  source_quote: |
+    "That portion of a body in light and shade will be least luminous
+    which is seen under the least amount of light."
+  extracted_structure: |
+    A source emits a directional quantity whose received intensity at
+    a boundary is a function of incidence angle and distance; the
+    boundary re-emits a diminished, angle-dependent derivative
+    (reflection/shadow) of the original quantity.
+  summary: |
+    A source-to-boundary transfer system where intensity is modulated
+    by geometric relation (angle, distance), and the boundary state
+    becomes a new, weaker source.
+  formal_family: candidate — radiative transfer / field theory
+  relationship_type: structural_isomorphism
+  confidence: medium
+  invariant: |
+    Intensity received is monotonically non-increasing with distance
+    and with departure from normal incidence.
+  cross_domain_occurrences: [optics, acoustics by analogy, heat by analogy]
+  compression_lineage: |
+    Surface: shadows get lighter farther from the light.
+    → Compressed: transmitted quantity decays with geometric relation.
+    → Core: source–boundary transfer function parameterized by angle
+      and distance, re-emitting a diminished derivative state.
+  tags: [system, attenuation, boundary, field]
+  formal_type: Morphism
+  depends_on: ["m03_convergence_point"]
+  generates: ["i01_proportional_invariance"]
+  requires_invariant: ["i01_proportional_invariance"]
+  relationship:
+    type: approximates
+    strength: 1
+    proof_status: none
+    verification_required: true
+--------------------------------------------------------------------------------
+Ontological Spine
+- id: o01
+  element_type: ontology
+  title: Four Primitive External Powers
+  source_chapter: "Philosophical Maxims (Vol. II, §1137)"
+  evidence_type: explicit
+  source_quote: |
+    "Weight, force and casual impulse, together with resistance, are
+    the four external powers in which all the visible actions of
+    mortals have their being and their end."
+  extracted_structure: |
+    The author treats {weight, force, impulse, resistance} as a
+    closed, irreducible set of causal primitives sufficient to
+    account for all observable state-change of bodies.
+  summary: |
+    A minimal ontology of four causal primitives claimed to be
+    jointly exhaustive over all physical action.
+  formal_family: candidate — closed generator basis for a state-transition algebra
+  relationship_type: none (ontological claim, not a derived equivalence)
+  confidence: high
+  invariant: |
+    No fifth independent primitive is admitted; all mechanical
+    phenomena are asserted reducible to combinations of these four.
+  cross_domain_occurrences: [mechanics, physiology, astronomy]
+  compression_lineage: |
+    Surface: many named forces and effects in mechanics.
+    → Compressed: four external powers.
+    → Core: {state, driver, perturbation, constraint} as a minimal
+      basis (weight=state-bias, force=driver, impulse=perturbation,
+      resistance=constraint).
+  tags: [ontology, primitives, mechanics]
+  formal_type: Category
+  formal_constraints:
+    - closure: "all mechanical action expressible as composition of the four"
+  depends_on: []
+  generates: ["s04_disequilibrium_generator"]
+  requires_invariant: []
+  relationship:
+    type: generates
+    strength: 1
+    proof_status: none
+    verification_required: true
+- id: o02
+  element_type: ontology
+  title: Necessity as Supreme Constraint-Generator
+  source_chapter: "Philosophical Maxims / The Powers of Nature (Vol. II, §§1134-1136)"
+  evidence_type: explicit
+  source_quote: |
+    "Necessity is the mistress and guide of nature... the eternal
+    curb and law of nature."
+  extracted_structure: |
+    The author treats a single unnamed regulatory principle
+    ("necessity") as prior to and generative of all natural law: no
+    force can fail to produce its rule-determined result.
+  summary: |
+    A primitive, unreducible constraint-generator that guarantees
+    determinism: given a state and applicable forces, the outcome is
+    fixed.
+  formal_family: candidate — determinism axiom over a transition system
+  relationship_type: none
+  confidence: high
+  invariant: |
+    Every force-state pairing yields exactly one necessary outcome;
+    no force "fails of the order or quality of its necessary results."
+  cross_domain_occurrences: [mechanics, hydrology, astronomy, ethics-adjacent maxims]
+  compression_lineage: |
+    Surface: "necessity" personified as nature's guide.
+    → Compressed: a determinism constraint over the transition system.
+    → Core: transition function is total and single-valued.
+  tags: [ontology, determinism, invariant]
+  formal_type: Object
+  depends_on: []
+  generates: ["i02_necessity_determinism", "s03_theory_practice_loop"]
+  requires_invariant: []
+  relationship:
+    type: requires
+    strength: 1
+    proof_status: none
+    verification_required: false
+- id: o03
+  element_type: ontology
+  title: Organizing-Principle / Substrate Duality
+  source_chapter: "Philosophical Maxims / Psychology (Vol. II, §§1140-1147)"
+  evidence_type: explicit
+  source_quote: |
+    "The soul can never be corrupted with the corruption of the body,
+    but is in the body as it were the air which causes the sound of
+    the organ."
+  extracted_structure: |
+    The author distinguishes a substrate (structure/matter) from an
+    organizing principle that animates or configures it, and asserts
+    the two are causally coupled but not identical: disorder in the
+    substrate constrains, without fully determining, the organizing
+    principle's expression.
+  summary: |
+    A fundamental two-layer ontology: substrate (physical structure)
+    and organizing principle (an information/control layer that
+    depends on the substrate for expression but is not reducible to it).
+  formal_family: candidate — layered system with an interface constraint
+  relationship_type: none
+  confidence: medium
+  invariant: |
+    The organizing principle cannot act without an intact substrate
+    ("without the organic instruments of that body, it can neither
+    act, nor feel anything"), but degradation of substrate does not
+    corrupt the principle itself.
+  cross_domain_occurrences: [anatomy/physiology, aesthetics ("disorder of house reflects disorder of soul"), instrument-and-player analogy]
+  compression_lineage: |
+    Surface: soul and body.
+    → Compressed: organizing principle and substrate, causally coupled.
+    → Core: a control layer whose expression is gated by, but not
+      identical to, its substrate.
+  tags: [ontology, layering, control]
+  formal_type: Object
+  depends_on: []
+  generates: []
+  requires_invariant: []
+  relationship:
+    type: restricts
+    strength: 1
+    proof_status: none
+    verification_required: false
+--------------------------------------------------------------------------------
+Computational Motifs
+- id: m01
+  element_type: computational_motif
+  title: Continuous-Magnitude Discretization Into Ranked Degrees
+  source_chapter: "Elements of Perspective, §102"
+  evidence_type: explicit
+  source_quote: |
+    "I give the degrees of the objects seen by the eye as the musician
+    does the notes heard by the ear."
+  extracted_structure: |
+    A continuously varying quantity is partitioned into named, ordered
+    intervals for the purpose of measurement and communication, even
+    though the underlying variation is unbroken.
+  summary: |
+    Quantization of a continuous signal into an ordinal scale — the
+    same partitioning operation applied to two unrelated sensory
+    channels.
+  formal_family: candidate — discretization / quantization operator
+  relationship_type: cross-domain motif (author's own explicit claim)
+  confidence: high
+  invariant: |
+    Ordering is preserved by the discretization: degree_n < degree_n+1
+    corresponds to true_value_n < true_value_n+1 in the source domain.
+  cross_domain_occurrences: [optics/perspective, music, explicitly claimed by author]
+  compression_lineage: |
+    Surface: perspective "steps" like musical notes.
+    → Compressed: a continuous variable mapped to ordered discrete degrees.
+    → Core: quantization operator: Q: continuous_domain -> ordered_finite_set,
+      order-preserving.
+  tags: [motif, quantization, cross-domain]
+  formal_type: Functor
+  formal_constraints:
+    - composition: "Q(x) < Q(y) whenever x < y"
+  depends_on: []
+  generates: []
+  requires_invariant: ["i01_proportional_invariance"]
+  relationship:
+    type: homomorphic
+    strength: 2
+    proof_status: explicit
+    verification_required: false
+- id: m02
+  element_type: computational_motif
+  title: Scale-Invariant Structural Isomorphism (Microcosm/Macrocosm)
+  source_chapter: "Beginning of the Treatise on Water, §929"
+  evidence_type: explicit
+  source_quote: |
+    "Man has been called the world in miniature... in all other points
+    they are much alike."
+  extracted_structure: |
+    A structural template (support elements, circulatory network,
+    periodic pump, absence of an unneeded component) is instantiated
+    at two radically different physical scales, with each component of
+    one instance mapped to a role-equivalent component of the other.
+  summary: |
+    The same topology, re-instantiated at a different scale, with an
+    explicit component-by-component correspondence and an explicit
+    account of where the correspondence breaks (earth has no "sinews"
+    because it does not move).
+  formal_family: candidate — structural homomorphism between graphs at different scales
+  relationship_type: structural_isomorphism (partial — author notes an explicit exception)
+  confidence: high
+  invariant: |
+    Role-correspondence holds except where a component's function
+    (movement) is absent in the target instance; the mapping is a
+    homomorphism, not a full isomorphism.
+  cross_domain_occurrences: [physiology, geology, hydrology]
+  compression_lineage: |
+    Surface: "the world is a body."
+    → Compressed: one network template, two scales, mapped roles.
+    → Core: partial structural homomorphism with an explicitly flagged
+      exception (a rare case of the author himself noting where
+      analogy fails — see Negative Extraction Rules).
+  tags: [motif, self-similarity, scale, homomorphism]
+  formal_type: Functor
+  formal_constraints:
+    - mapping_rule: "component_human -> component_earth, except {sinew -> undefined}"
+  depends_on: []
+  generates: ["s02_branching_network", "i03_role_preservation"]
+  requires_invariant: ["i03_role_preservation"]
+  relationship:
+    type: homomorphic
+    strength: 2
+    proof_status: explicit
+    verification_required: true
+- id: m03
+  element_type: computational_motif
+  title: Convergence to a Singular Reference Point
+  source_chapter: "Elements of Perspective, §§55-57"
+  evidence_type: explicit
+  source_quote: |
+    "Each point is the apex of a pyramid, all having a common base
+    with the intervening vertical plane."
+  extracted_structure: |
+    Multiple divergent channels (rays, furrows, lines of sight) are
+    shown to share a single terminal point under a specified viewing
+    condition; the point's position moves consistently with the
+    position of the observer.
+  summary: |
+    A many-to-one convergence operator whose apex tracks the observer,
+    used to explain both the geometry of vision and the appearance of
+    parallel lines meeting at a distance.
+  formal_family: candidate — limit point / vanishing point in projective geometry
+  relationship_type: structural_isomorphism
+  confidence: high
+  invariant: |
+    The apex always lies on the line through the eye perpendicular to
+    the reference plane; it moves rigidly with the eye.
+  cross_domain_occurrences: [linear perspective, natural observation (ploughed-field furrows)]
+  compression_lineage: |
+    Surface: parallel furrows appear to meet.
+    → Compressed: divergent lines converge to an observer-linked point.
+    → Core: a rigidly-tracking limit point of a family of projective lines.
+  tags: [motif, convergence, projective]
+  formal_type: Object
+  depends_on: []
+  generates: ["s01_convergent_projection_system"]
+  requires_invariant: []
+  relationship:
+    type: generates
+    strength: 2
+    proof_status: derived
+    verification_required: true
+- id: m04
+  element_type: computational_motif
+  title: Imbalance-Triggered Corrective Transition
+  source_chapter: "Fundamental Laws of the Solar System, §§859, 1136"
+  evidence_type: explicit
+  source_quote: |
+    "In many cases one and the same thing is attracted by two strong
+    forces, namely Necessity and Potency."
+  extracted_structure: |
+    Whenever a system's state departs from a balanced configuration,
+    a directed transition is induced that acts to reduce the
+    departure — but the transition itself is treated as a new
+    generative source, not merely a passive equalization.
+  summary: |
+    A restoring transition triggered by asymmetry, which is itself
+    treated as an active generator of further downstream state.
+  formal_family: candidate — gradient-driven transition rule
+  relationship_type: weak (analogy strength — mechanism transfers, vocabulary does not)
+  confidence: medium
+  invariant: |
+    Direction of transition always opposes the sign of the imbalance.
+  cross_domain_occurrences: [hydrology (rain/absorption/evaporation), mechanics (weight seeking centre, §860), physiology]
+  compression_lineage: |
+    Surface: water falls, earth absorbs, sun evaporates.
+    → Compressed: imbalance drives directed flow.
+    → Core: transition rule: state' = state - k*sign(imbalance), with
+      k itself a new generative quantity.
+  tags: [motif, disequilibrium, feedback]
+  formal_type: Morphism
+  depends_on: ["o01_four_powers"]
+  generates: []
+  requires_invariant: ["i02_necessity_determinism"]
+  relationship:
+    type: generates
+    strength: 1
+    proof_status: conjectured
+    verification_required: true
+- id: m05
+  element_type: computational_motif
+  title: Dual Orthogonal Descriptors Jointly Fix a State
+  source_chapter: "Elements of Perspective, §55"
+  evidence_type: explicit
+  source_quote: |
+    "The eye f marks the distance... the eye t shows you the
+    direction... in order to ascertain both you must use both points."
+  extracted_structure: |
+    A single observed state cannot be fully specified by one
+    parameter alone; two independent parameters, each individually
+    insufficient, jointly and uniquely determine the state when
+    combined.
+  summary: |
+    A minimal-coordinates motif: state = (parameter_1, parameter_2),
+    neither sufficient alone, both individually necessary.
+  formal_family: candidate — coordinate pair over a product space
+  relationship_type: structural_isomorphism
+  confidence: medium
+  invariant: |
+    Neither parameter alone distinguishes all states that the pair
+    distinguishes jointly.
+  cross_domain_occurrences: [perspective geometry, (by extension) any polar/bearing-and-range system]
+  compression_lineage: |
+    Surface: two "eyes," f and t.
+    → Compressed: distance parameter and direction parameter.
+    → Core: minimal orthogonal coordinate pair over a state space.
+  tags: [motif, coordinates, minimality]
+  formal_type: Object
+  depends_on: []
+  generates: []
+  requires_invariant: []
+  relationship:
+    type: composes_with
+    strength: 1
+    proof_status: none
+    verification_required: false
+- id: m06
+  element_type: computational_motif
+  title: Model-Failure Attribution Rule
+  source_chapter: "Philosophical Maxims, §1153"
+  evidence_type: explicit
+  source_quote: |
+    "Experience never errs; it is only your judgments that err by
+    promising themselves effects such as are not caused by your
+    experiments."
+  extracted_structure: |
+    When predicted state and observed state diverge, the discrepancy
+    is attributed to the generator (the interpretive model/judgment),
+    never to the observation channel itself.
+  summary: |
+    An explicit error-attribution rule for the theory-practice loop:
+    the observer is trusted; the generator is revised.
+  formal_family: candidate — Bayesian-style updating rule (informal)
+  relationship_type: weak — no formal update rule given, but the causal
+    direction of correction is explicit
+  confidence: medium
+  invariant: |
+    Corrections always flow toward the generator, never toward
+    discounting the observation.
+  cross_domain_occurrences: [epistemology, experimental method]
+  compression_lineage: |
+    Surface: "don't blame experience, blame your expectations."
+    → Compressed: error attributed to model, not to data.
+    → Core: asymmetric update rule fixing the direction of correction
+      in a generator-observer loop.
+  tags: [motif, error-correction, epistemology]
+  formal_type: Morphism
+  depends_on: ["s03_theory_practice_loop"]
+  generates: []
+  requires_invariant: []
+  relationship:
+    type: restricts
+    strength: 1
+    proof_status: explicit
+    verification_required: false
+--------------------------------------------------------------------------------
+Formal Families
+- id: f01
+  element_type: formal_family
+  title: Projective / Central-Projection Geometry
+  source_chapter: "Linear Perspective (Vol. I, §§40-109)"
+  evidence_type: explicit
+  summary: |
+    The pyramid-of-sight material satisfies the structural signature
+    of central projection: a fixed apex, a family of projecting lines,
+    and variable intersecting planes yielding scaled images. Formal
+    identity with modern projective geometry is not claimed by the
+    text; the text works entirely in Euclidean/ratio terms.
+  formal_mapping_rule: |
+    candidate formal family — do not assert isomorphism to a specific
+    modern axiomatization; the source only supports "structural
+    similarity" (strength 1) rising to "typed correspondence" (strength
+    2) for the ratio/proportion claims, which are stated as general
+    rules (§104, §106).
+  cross_domain_occurrences: [optics, natural-perspective observation]
+  tags: [formal_family, projective_geometry]
+  relationship:
+    type: approximates
+    strength: 2
+    proof_status: derived
+    verification_required: true
+- id: f02
+  element_type: formal_family
+  title: Gradient-Driven Dynamical System
+  source_chapter: "Fundamental Laws of the Solar System (Vol. II, §859)"
+  evidence_type: implicit
+  summary: |
+    The force-from-imbalance cascade has the shape of a dynamical
+    system driven by a state gradient, with derived quantities forming
+    a strict causal chain. No differential formalism is present in the
+    text; the correspondence is structural only.
+  formal_mapping_rule: |
+    candidate formal family, strength 1 (structural similarity only) —
+    no equations of motion are given, so no typed correspondence can
+    be claimed.
+  cross_domain_occurrences: [hydraulics, mechanics, physiology]
+  tags: [formal_family, dynamical_systems]
+  relationship:
+    type: approximates
+    strength: 1
+    proof_status: none
+    verification_required: true
+- id: f03
+  element_type: formal_family
+  title: Rooted-Tree Flow Network
+  source_chapter: "Beginning of the Treatise on Water (Vol. II, §929)"
+  evidence_type: implicit
+  summary: |
+    The vein/river branching-with-return structure matches a rooted
+    tree (or DAG) carrying conserved flow from and to a central
+    reservoir. The text describes the topology qualitatively; no
+    explicit graph formalism appears.
+  formal_mapping_rule: |
+    candidate formal family, strength 1; would rise to strength 2 if a
+    downstream engine formally typed reservoir/channel/periphery nodes
+    and verified flow conservation at branch points.
+  cross_domain_occurrences: [physiology, hydrology, geology]
+  tags: [formal_family, graph_theory, network]
+  relationship:
+    type: approximates
+    strength: 1
+    proof_status: none
+    verification_required: true
+--------------------------------------------------------------------------------
+Deeper Invariants
+- id: i01
+  element_type: invariant
+  title: Proportional Invariance Under Distance Scaling
+  source_chapter: "Elements of Perspective, §§104, 106"
+  evidence_type: explicit
+  source_quote: |
+    "The differences in the diminution of objects... will bear among
+    themselves the same proportions as those of the spaces between
+    the eye and the different objects."
+  extracted_structure: |
+    Across all instances of the convergent-projection system, the
+    ratio (projected size / true size) tracks the ratio (reference
+    distance / object distance), regardless of which objects or
+    distances are chosen.
+  invariant: |
+    size_ratio = distance_ratio, for any pair of same-type objects
+    under the same projection system.
+  survives_removal_of: [specific objects (men, furrows), specific units (braccia), narrative framing]
+  cross_domain_occurrences: [perspective, by extension any inverse-distance signal]
+  tags: [invariant, proportion, scaling]
+- id: i02
+  element_type: invariant
+  title: Determinism Under Necessity
+  source_chapter: "Philosophical Maxims (Vol. II, §1134)"
+  evidence_type: explicit
+  source_quote: |
+    "Thou hast not permitted that any force should fail of the order
+    or quality of its necessary results."
+  extracted_structure: |
+    Given a state and the forces acting on it, the outcome is unique
+    and rule-determined; no stochastic slack is admitted anywhere in
+    the system.
+  invariant: |
+    The transition function of the whole system is total and
+    single-valued.
+  survives_removal_of: [theological framing ("Thou"), specific examples of force]
+  cross_domain_occurrences: [mechanics, hydrology, astronomy]
+  tags: [invariant, determinism]between
+    the eye and the different objects."
+  extracted_structure: |
+- id: i03
+  element_type: invariant
+  title: Role-Preservation Across Scale Substitution
+  source_chapter: "Beginning of the Treatise on Water, §929"
+  evidence_type: explicit
+  source_quote: |
+    "In all other points they are much alike."
+  extracted_structure: |
+    When the branching-transport-network template is re-instantiated
+    at a different scale, each component's functional role
+    (support, channel, reservoir, periodicity) is preserved even
+    though absolute size and material differ.
+  invariant: |
+    role(component, instance_A) = role(component, instance_B) for all
+    components with a defined counterpart; components with no
+    counterpart are explicitly flagged, not silently dropped.
+  survives_removal_of: [the specific bodies compared (man, earth), the specific fluids named]
+  cross_domain_occurrences: [physiology, geology, hydrology]
+  tags: [invariant, self-similarity, role-mapping]
+--------------------------------------------------------------------------------
+Underlying Patterns
+- id: p01
+  element_type: underlying_pattern
+  title: Distance-Decayed, Quantized Observation
+  source_chapter: "synthesis of s01, s05, m01, i01"
+  evidence_type: inferred
+  extracted_structure: |
+    A system emits information from a field of sources toward a
+    convergence point; received magnitude decays as a function of
+    distance/angle from that point; the continuous decay is then
+    partitioned into named ordinal degrees for practical use.
+  summary: |
+    "A system radiates information toward a point; strength falls off
+    with distance; the fall-off is cut into ranked degrees so it can
+    be named, measured, and reused."
+  reusable_across: [biology (sensory adaptation), physics (field strength), cognition (salience gradients), organizations (signal decay through hierarchy), technology (signal attenuation), culture (rumor/attenuation of report fidelity)]
+  tags: [pattern, decay, quantization, convergence]
+- id: p02
+  element_type: underlying_pattern
+  title: Asymmetry-Seeded Generative Cascade
+  source_chapter: "synthesis of s04, m04, o01"
+  evidence_type: inferred
+  extracted_structure: |
+    A system detects an asymmetric distribution between two regions;
+    this asymmetry drives a directed corrective transition; the
+    transition itself becomes the generative parent of a further
+    derived state, in a strict, non-reversible causal order.
+  summary: |
+    "A system holds an imbalance, which drives a directed flow, until
+    that flow itself becomes the seed of a new downstream state."
+  reusable_across: [biology (homeostatic cascades), physics (potential-driven flux), cognition (tension-resolution), organizations (bottleneck-driven restructuring), technology (backpressure-driven throttling), culture (scarcity-driven institutional change)]
+  tags: [pattern, cascade, disequilibrium]
+--------------------------------------------------------------------------------
+Architecture
+- id: a01
+  element_type: architecture
+  title: G-A-S-O Mapping of the Corpus's Method
+  source_chapter: "synthesis across Philosophical Maxims, Of Mechanics, Elements of Perspective"
+  evidence_type: inferred
+  layers:
+    Generator: "Mathematical/geometric law and the constraint of Necessity (o02) — the space of permitted transformations (proportion rules, the four powers, projective ratios)."
+    Action: "Observation, experiment, and practice (painting, dissection, hydraulic experiment) — what actually perturbs or samples the substrate."
+    State: "The momentary configuration of the observed system — a shadow's shape, a limb's proportion, a river's course."
+    Observer: "The eye / recorded experience — extracts information from State and reports it back to Generator (m06)."
+    Invariant: "Ratios and proportions that must hold across all instances (i01, i02, i03) — what is preserved when Action is repeated under varying conditions."
+  passes_universal_generator_test: true
+  justification: |
+    The same four-slot architecture recurs, with different fillers,
+    across optics (s01/s05), hydrology/mechanics (s04), and the
+    explicit epistemology of Of Mechanics (s03) — satisfying the
+    Causal Dependency Rule (removing the loop breaks the corpus's
+    stated method across many unrelated domains) and the Regeneration
+    Test (the loop plus the four powers and necessity could regenerate
+    the shape, though not the content, of most chapters).
+  depends_on: ["s03_theory_practice_loop", "o02_necessity", "m06_model_failure_attribution"]
+  generates: []
+  requires_invariant: ["i02_necessity_determinism"]
+  tags: [architecture, GASO, method]
+--------------------------------------------------------------------------------
+Self-Check Summary
+Altitude: all entries hold at A4 (generator/mechanism level); none rest at A0-A2 narrative/domain level. A5 not invoked — A4 retains explanatory power without further compression.
+Domain-removal test applied: entities recast as {source, sink, channel, apex, gradient, role} throughout; domain nouns (eye, blood, soul) appear only inside source_quote fields for grounding.
+Quantity: 23 total elements (5 systems, 3 ontology, 6 motifs, 3 formal families, 3 invariants, 2 patterns, 1 architecture) — within the 10-30 target band.
+Relationship strengths: mostly 1-2 (structural/typed); none claimed at strength 4 (semantic preservation), since the source text supplies no functor/equivalence proofs — correctly flagged verification_required: true throughout.
+Left to other extractors: named historical figures, specific machine drawings (Codex Atlanticus plates), painting technique advice, humorous writings/fables, glossary terms (braccia, pyramid, etc.).
