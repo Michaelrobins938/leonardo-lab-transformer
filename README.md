@@ -17,7 +17,7 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 Leonardo Lab answers one question: **can the structural mechanics of history's
 greatest empirical observer be operationalized as a domain-agnostic
@@ -38,7 +38,7 @@ It has been validated on three systems spanning five centuries of science:
 
 ---
 
-## ✨ Key Contributions
+## Key Contributions
 
 1. **Notebook-to-kernel pipeline.** A formal extraction of 23 structural
    elements (systems, ontological primitives, computational motifs, invariants)
@@ -68,7 +68,7 @@ It has been validated on three systems spanning five centuries of science:
 
 ---
 
-## 📊 Results at a Glance
+## Results at a Glance
 
 | Case Study | Baseline | Optimized | Δ | Winning Mechanism |
 |:---|:---:|:---:|:---:|:---|
@@ -87,35 +87,35 @@ position_encoding_type            0.113
 ```
 
 **Learning from failure (negative extraction):**
-- ❌ Causal temporal ordering → protein folding: **rejected** — temporal causality ≠ thermodynamic validity; constraint domains incompatible.
-- ❌ `normalization_position → none`: **rejected** — LayerNorm is load-bearing at depth N > 6.
-- ❌ `head_count = 128`: **rejected** — d_k = 4 is degenerate; practical bound d_k ≥ 16 ⇒ h_max = d_model/16.
+-  Causal temporal ordering → protein folding: **rejected** — temporal causality ≠ thermodynamic validity; constraint domains incompatible.
+-  `normalization_position → none`: **rejected** — LayerNorm is load-bearing at depth N > 6.
+-  `head_count = 128`: **rejected** — d_k = 4 is degenerate; practical bound d_k ≥ 16 ⇒ h_max = d_model/16.
 
 Each rejection is compiled into a machine-readable rule that constrains all future generations.
 
 ---
 
-## 📖 Table of Contents
+## Table of Contents
 
-- [Overview](#-overview) · [Key Contributions](#-key-contributions) · [Results](#-results-at-a-glance)
-- [Quickstart](#-quickstart)
-- [System Architecture](#️-system-architecture)
-- [The GASO State Machine](#-the-gaso-state-machine-the-engine)
-- [The 11-Phase Pipeline](#-the-11-phase-gaso-pipeline)
-- [Mutation Operators](#-mutation-operators-m01m05)
-- [The Invariant System](#-the-invariant-system-three-layers)
-- [Enforcement Rules & Hard Gates](#-enforcement-rules--validation-gates)
-- [Case Studies](#-case-studies)
-- [Repository Structure](#-repository-structure)
-- [Testing & Engineering Quality](#-testing--engineering-quality)
-- [Documentation Map](#-documentation-map)
-- [Scholarly Positioning](#-scholarly-positioning)
-- [Limitations & Future Work](#-limitations--future-work)
-- [Citation](#-citation) · [License](#-license)
+- [Overview](#overview) · [Key Contributions](#key-contributions) · [Results](#results-at-a-glance)
+- [Quickstart](#quickstart)
+- [System Architecture](#system-architecture)
+- [The GASO State Machine](#the-gaso-state-machine-the-engine)
+- [The 11-Phase Pipeline](#the-11-phase-gaso-pipeline)
+- [Mutation Operators](#mutation-operators-m01m05)
+- [The Invariant System](#the-invariant-system-three-layers)
+- [Enforcement Rules & Hard Gates](#enforcement-rules--validation-gates)
+- [Case Studies](#case-studies)
+- [Repository Structure](#repository-structure)
+- [Testing & Engineering Quality](#testing--engineering-quality)
+- [Documentation Map](#documentation-map)
+- [Scholarly Positioning](#scholarly-positioning)
+- [Limitations & Future Work](#limitations--future-work)
+- [Citation](#citation) · [License](#license)
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ```bash
 git clone https://github.com/Michaelrobins938/leonardo-lab-transformer.git
@@ -158,7 +158,7 @@ generic ontology-driven parameter extraction.
 
 ---
 
-## 🛠️ System Architecture
+## System Architecture
 
 Leonardo Lab runs on a structured, three-part cybernetic foundation:
 
@@ -190,7 +190,7 @@ Leonardo Lab runs on a structured, three-part cybernetic foundation:
 
 ---
 
-## 🔄 The GASO State Machine (the Engine)
+## The GASO State Machine (the Engine)
 
 The engine's control loop is a direct formalization of Leonardo's
 theory-practice epistemology (*s03* in the formal extraction):
@@ -214,7 +214,7 @@ The 11 phases below are the transmission that drives this engine.
 
 ---
 
-## 🔁 The 11-Phase GASO Pipeline
+## The 11-Phase GASO Pipeline
 
 ```
 [Phase 0: Landscape & Budget] ──> [Phase 1: Ontological Reduction]
@@ -271,7 +271,7 @@ The 11 phases below are the transmission that drives this engine.
 
 ---
 
-## 🧬 Mutation Operators (M01–M05)
+## Mutation Operators (M01–M05)
 
 | Operator | Name | Mechanism | Example (Transformer run) |
 |:---:|:---|:---|:---|
@@ -286,7 +286,7 @@ changed_variable, reason_for_mutation, expected_effect}` — verified by Hard Ga
 
 ---
 
-## 🛡️ The Invariant System (Three Layers)
+## The Invariant System (Three Layers)
 
 Peer-review note: the corpus operates three distinct invariant families. These
 are *layers*, not contradictions:
@@ -299,7 +299,7 @@ are *layers*, not contradictions:
 
 ---
 
-## 📋 Enforcement Rules & Validation Gates
+## Enforcement Rules & Validation Gates
 
 Seven hard gates must pass before the engine reports success. Any violation
 halts execution:
@@ -320,7 +320,7 @@ changes), **Single Variable Rule** (one variable per variant).
 
 ---
 
-## 🔬 Case Studies
+## Case Studies
 
 ### 1. Wiener Cybernetics A4 Genome (1948/1950)
 
@@ -363,7 +363,7 @@ coverage).
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 leonardo-lab-transformer/
@@ -386,7 +386,7 @@ leonardo-lab-transformer/
 
 ---
 
-## 🧪 Testing & Engineering Quality
+## Testing & Engineering Quality
 
 ```bash
 pytest tests/ -v          # 17 tests across four suites
@@ -407,7 +407,7 @@ CI runs the suite on Python 3.12 and 3.13 plus two CLI smoke tests (fresh run
 
 ---
 
-## 🗺️ Documentation Map
+## Documentation Map
 
 | Artifact | Audience | Content |
 |:---|:---|:---|
@@ -422,7 +422,7 @@ CI runs the suite on Python 3.12 and 3.13 plus two CLI smoke tests (fresh run
 
 ---
 
-## 🎓 Scholarly Positioning
+## Scholarly Positioning
 
 Leonardo Lab sits at the intersection of four literatures, differing from each
 in a specific, defensible way:
@@ -445,7 +445,7 @@ models must earn revision.
 
 ---
 
-## ⚠️ Limitations & Future Work
+## Limitations & Future Work
 
 **Known limitations**
 
@@ -484,7 +484,7 @@ backends (PyTorch); multi-objective selection on the τ×g frontier.
 
 ---
 
-## 📚 Citation
+## Citation
 
 If you use Leonardo Lab in your research, please cite:
 
@@ -509,6 +509,6 @@ Vaswani et al., "Attention Is All You Need" (2017).
 
 ---
 
-## 📄 License
+## License
 
 This architecture is licensed under the MIT License. See [`LICENSE`](LICENSE).
